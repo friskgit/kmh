@@ -73,6 +73,12 @@ import("grids.lib");
 // COMPILATION PARAMETERS
 L = 3; // maximal SH degree
 S = 1; // number of inputs
+midi = 32; // midi control
+mida = midi;
+mide = midi+4;
+midr = midi+8;
+midd = midi+12;
+
 coord = 0; // Choice of coordinate system : 0 => Spherical, 1 => Cartesian
 doppler = 1; // Activate the possibility of Doppler effect : 0 => No, 1 => Yes
 
@@ -97,9 +103,9 @@ t1(i) = rtp(i) : !, _, ! ;
 p1(i) = rtp(i) : !, !, _ ;
 
 // User interface Spherical
-r0(i)	=	hslider("[%i+2][unit:m][osc:/radius_%i %rmin %rmax][style:knob]Radius %2i", 1, rmin, rmax, 0.01);// radius
-t0(i)	=	hslider("[%i+3][unit:°][osc:/azimuth_%i -180 180][style:knob]Azimuth %2i", 0, -180, 180, 0.1)*ma.PI/180; // azimuth
-p0(i)	=	hslider("[%i+4][unit:°][osc:/elevation_%i -90 90][style:knob]Elevation %2i", 0, -90, 90, 0.1)*ma.PI/180; // elevation
+r0(i)	=	hslider("[%i+2][unit:m][osc:/radius_%i %rmin %rmax][style:knob][midi:ctrl %midr]Radius %2i", 1, rmin, rmax, 0.01);// radius
+t0(i)	=	hslider("[%i+3][unit:°][osc:/azimuth_%i -180 180][style:knob][midi:ctrl %mida]Azimuth %2i", 0, -180, 180, 0.1)*ma.PI/180; // azimuth
+p0(i)	=	hslider("[%i+4][unit:°][osc:/elevation_%i -90 90][style:knob][midi:ctrl %mide]Elevation %2i", 0, -90, 90, 0.1)*ma.PI/180; // elevation
 
 // Resulting Spherical coordinate system
 r(i) = case{
