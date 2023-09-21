@@ -5,7 +5,7 @@ declare version " 0.1 ";
 declare author " Henrik Frisk " ;
 declare license " BSD ";
 declare copyright "(c) dinergy 2023 ";
-
+declare options "[osc:on]";
 //---------------`Name` --------------------------
 //
 // DSP template
