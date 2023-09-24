@@ -25,17 +25,16 @@ envelop = abs : max(ba.db2linear(-70)) : ba.linear2db : min(6)  : max ~ -(80.0/m
 
 // create the objects
 // bformat input 16ch
-bformat = hgroup("b-format inputs", par(i, N, vgroup("%2i", vmeter(_, i))));
+in_meter(x) = hgroup("%x", vmeter(_, x));
+bformat = hgroup("[0]b-format inputs", par(i, N, in_meter(i+1)));
 
 // stereo input
-st = hgroup("stereo input", par(i, 2, vgroup("%2i", vmeter(_, i)))) : component("stereo_encoder.dsp")[L=3;];
+st = hgroup("[0]stereo encoder", par(i, 2, vgroup("%2i", vmeter(_, i))) : component("stereo_encoder.dsp")[L=3;]);
 
 // mono inputs (4)
-//mno = hgroup("mono inputs", par(i, 4, vgroup("%2i", vmeter(_, i)))) : component("encoder.dsp")[L=3; S=4;];
-
-mno = hgroup("mono inputs", par(i, 4, vgroup("%2i", vmeter(_, i) : component("encoder.dsp")[L=3; S=1; midi=32+i;])));
+mno = hgroup("[1]mono encoders", par(i, 4, vgroup("%2i", vmeter(_, i) : component("encoder.dsp")[L=3; S=1; midi=32+i;])));
 
 // audio inputs 2+4 inputs
-encoders =  bformat, st, mno;
+encoders = vgroup("[0]inputs", bformat, vgroup("[1]encoders", mno, st));
 
-process = encoders :> component("KMHLS_Dome_3h3p_N.dsp");
+process = vgroup("all", encoders :> hgroup("[1]decoder", component("KMHLS_Dome_3h3p_N.dsp")));

@@ -1,4 +1,4 @@
-declare name        "Ambisonic Stereo Encoder";
+declare name        "st_encoder";
 declare version     "1.1";
 declare author      "Pierre Lecomte";
 declare license     "CC-BY-NC-SA-4.0";

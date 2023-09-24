@@ -27,10 +27,10 @@ nbands = 2;
 decoder_type = 2;
 
 // crossover frequency in Hz
-xover_freq = hslider("xover [unit:Hz]",400,200,800,20): dezipper;
+xover_freq = hslider("[1]xover [unit:Hz]",400,200,800,20): dezipper;
 
 // lfhf_balance
-lfhf_ratio = hslider("lf/hf [unit:dB]", 0, -3, +3, 0.1): mu.db2linear : dezipper;
+lfhf_ratio = hslider("[2]lf/hf [unit:dB]", 0, -3, +3, 0.1): mu.db2linear : dezipper;
 
 
 // decoder order
@@ -522,7 +522,8 @@ gamma_bus(n) = par(i,nc, gain( m.take(m.take(i+1,co)+1, gamma(n))));
 
 // output gain and muting
 //  note in GUI elements, dezipper should be last in chain. Dezipper runs in sample time, rest runs in slow (GUI) time
-output_gain = hslider("gain [unit:dB]", 0, -30, +10, 1): mu.db2linear :*(checkbox("mute")<0.5): dezipper;
+
+output_gain = vgroup("output", hslider("[0]gain [unit:dB]", 0, -30, +10, 1): mu.db2linear :* (checkbox("[0]mute")<0.5)) : dezipper;
 
 gain_muting_bus(0,n) = bus(n);
 gain_muting_bus(1,n) = par(i,n,*(output_gain));
@@ -542,8 +543,8 @@ decoder(1,nc,ns) = nfc_input_bus(nc)
 
 // classic shelf filter decoder
 decoder(2,nc,ns) = nfc_input_bus(nc) 
-                :  par(i,nc, shelf(xover_freq,m.take(m.take(i+1,co)+1, gamma(0))/lfhf_ratio,
-                                              m.take(m.take(i+1,co)+1, gamma(1))*lfhf_ratio))
+                :  vgroup("filter", par(i,nc, shelf(xover_freq,m.take(m.take(i+1,co)+1, gamma(0))/lfhf_ratio,
+                                              m.take(m.take(i+1,co)+1, gamma(1))*lfhf_ratio)))
                 <: par(is,ns, speaker_chain(is)) 
                 :  delay_level(rs);
 
