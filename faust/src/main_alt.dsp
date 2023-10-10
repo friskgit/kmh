@@ -46,6 +46,6 @@ encoders = tgroup("[0]inputs", bformat, vgroup("[1]encoders", mno, st));
 // bp = par(i, N+6, *(_));
 
 // process = vgroup("all", encoders :> hgroup("[1]decoder", component("KMHLS_Dome_3h3p_N.dsp")));
-process = vgroup("all", encoders :> hgroup("[1]decoder", component("KMHLS_Dome_3h3p_N.dsp")));
+process = vgroup("all", encoders :> bformat );
 
 // a,b,c,d, e,f,g,h, i,j,k,l, m,n,o,p, q,r,s,t, u,v
